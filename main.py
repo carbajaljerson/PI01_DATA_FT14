@@ -18,14 +18,14 @@ app = FastAPI()
 
 
 
-with open("data/steamGames.pkl", "rb") as file:
-    dataGames = pickle.load(file)
+with open("data/steamGames.pkl", "rb") as file1:
+    dataGames = pickle.load(file1)
     
-with open("data/steamItems.pkl", "rb") as file:
-    dataItems = pickle.load(file)
+with open("data/steamItems.pkl", "rb") as file2:
+    dataItems = pickle.load(file2)
     
-with open("data/steamReviews.pkl", "rb") as file:
-    dataReviews = pickle.load(file)
+with open("data/steamReviews.pkl", "rb") as file3:
+    dataReviews = pickle.load(file3)
     
 dataUser = pd.merge(dataItems,dataReviews,on=['user_id','item_id','user_url'],how='outer')    
     
