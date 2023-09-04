@@ -23,6 +23,15 @@ with open("data/dataGenres.pkl", "rb") as file2:
 with open("data/dataUserGenre.pkl", "rb") as file3:
     dataUserGenre= pickle.load(file3)
     
+with open("data/dataDevelopYear.pkl", "rb") as file4:
+    dataDevYear= pickle.load(file4)
+    
+with open("data/dataDevItem.pkl", "rb") as file5:
+    dataDevItem= pickle.load(file5)
+    
+with open("data/dataFreeYear.pkl", "rb") as file6:
+    dataFreeYear= pickle.load(file6)
+
 
 @app.get('/')
 def index():
@@ -95,7 +104,34 @@ def userforgenre(genre:str):
 @app.get('/developer/')
 def developer(developer:str):
     
-    pass
+    
+    
+    #dataDeveloper = data[data['developer']== developer]
+    
+    #itemsPearYear = dataDeveloper.groupby('release_year')['item_id'].nunique()
+    itemsPearYear =  dataDevYear[dataDevYear['developer']== developer]
+    
+    #cantidadItems = dataDeveloper.groupby('developer')['item_id'].nunique()
+    cantidadItems =  dataDevItem[dataDevItem['developer']== developer]
+    
+    
+    #itemsFreePearYear = dataDeveloper[dataDeveloper['price']==0].groupby('release_year')['item_id'].nunique()
+    itemsFreePearYear = dataFreeYear[dataFreeYear['developer']== developer]
+    
+    porcentaje= (itemsFreePearYear/itemsPearYear)*100
+    
+    rowPercent = []
+    for anio in itemsPearYear.index:
+        
+        percentFree = porcentaje.get(anio)
+        
+        if np.isnan(percentFree):        
+            rowPercent.append({'Año': anio,'Contenido Free':'0.00%'})
+        
+        else:
+            rowPercent.append({'Año': anio,'Contenido Free':f"{percentFree:.2f}%"})
+
+    return {'Cantidad Items': str(cantidadItems.iloc[0]),'Porcentaje Contenido Free': rowPercent}
 
 @app.get('/sentiment/')
 def sentiment_analysis(year:int):
