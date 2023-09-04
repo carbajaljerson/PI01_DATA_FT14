@@ -1,6 +1,5 @@
+# Library imports
 
-
-# 1. Library imports
 import uvicorn
 from fastapi import FastAPI
 import numpy as np
@@ -13,13 +12,14 @@ from sklearn.metrics.pairwise import linear_kernel
 # Creacion del objecto FastAPI
 app = FastAPI()
 
-#pickle_in = open("classifier.pkl","rb")
-#classifier=pickle.load(pickle_in)
+
 
 with open("data/dataUser.pkl", "rb") as file1:
     dataUser= pickle.load(file1)
 
-
+with open("data/dataGenres.pkl", "rb") as file2:
+    dataGenres= pickle.load(file2)
+    
 
 @app.get('/')
 def index():
@@ -58,7 +58,18 @@ def countreviews(fechaInicio:str, fechaFin:str):
 @app.get('/genre/')
 def genre(genreRanking:str):
     
-    pass
+    #sumGenres = dataGenres
+    sumGenres = dataGenres.sort_values(ascending=False)
+    result = pd.DataFrame(sumGenres).reset_index()
+    
+    index=None
+    for i in range(len(result)):
+        if (result.genres[i]==genreRanking):
+            index=i
+            break   
+    
+    puesto = str(index+1)
+    return {'Puesto del Género':puesto}
     
 
 @app.get('/userforgenre/')
