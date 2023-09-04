@@ -33,6 +33,7 @@ def get_name(name: str):
 
 @app.get('/userId/')
 def userdata(userId:str):
+    
     #Se ingresa el userId, retornando el monto gastado por el usuario, porcentaje de recomendación y cantidad de Items'''
     
     cantidad= dataUser[dataUser['user_id']==userId].groupby('user_id')['item_id'].nunique().iloc[0]
@@ -40,13 +41,18 @@ def userdata(userId:str):
     #cantidad = (dataUser['items_count'].loc[dataUser["user_id"] == userId]).max()
     gastoTotal = round(dataUser['price'].loc[dataUser["user_id"] == userId].sum(),2)
     
-   
     return {'Usuario':userId, 'Gasto Total':gastoTotal, 'Porcentaje de recomendación (%)':porcentaje, 'Cantidad de Items':int(cantidad)}
 
 @app.get('/rangeDate/')
 def countreviews(fechaInicio:str, fechaFin:str):
     
-    pass
+    #Se ingresa el rango de Fechas, retornando el cantidad de Usuarios y el porcentaje de recomendación
+    
+    mask = (dataUser['posted'] >= fechaInicio) & (dataUser['posted'] <= fechaFin)
+    cantidad =  len(pd.DataFrame(dataUser.loc[mask])['user_id'].unique())
+    porcentaje = round(((dataUser.loc[mask].recommend.sum())/(cantidad)),2)*100
+    
+    return {'Cantidad de usuarios':cantidad, 'Porcentaje de recomendación (%)':porcentaje}
 
 
 @app.get('/genre/')
