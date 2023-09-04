@@ -104,34 +104,32 @@ def userforgenre(genre:str):
 @app.get('/developer/')
 def developer(developer:str):
     
+    dataDevYear =  dataDevYear[dataDevYear['developer']== developer]
+    itemsPearYear = dataDevYear.set_index('release_year')['item_id']
     
     
-    #dataDeveloper = data[data['developer']== developer]
+    dataDevItem =  dataDevItem[dataDevItem['developer']== developer]
+    cantidadItems =  dataDevItem.set_index('developer')['item_id']
     
-    #itemsPearYear = dataDeveloper.groupby('release_year')['item_id'].nunique()
-    itemsPearYear =  dataDevYear[dataDevYear['developer']== developer]
-    
-    #cantidadItems = dataDeveloper.groupby('developer')['item_id'].nunique()
-    cantidadItems =  dataDevItem[dataDevItem['developer']== developer]
-    
-    
-    #itemsFreePearYear = dataDeveloper[dataDeveloper['price']==0].groupby('release_year')['item_id'].nunique()
-    itemsFreePearYear = dataFreeYear[dataFreeYear['developer']== developer]
+   
+    dataFreeYear = dataFreeYear[dataFreeYear['developer']== developer]
+    itemsFreePearYear = dataFreeYear.set_index('release_year')['item_id']
     
     porcentaje= (itemsFreePearYear/itemsPearYear)*100
     
     rowPercent = []
+    
     for anio in itemsPearYear.index:
         
         percentFree = porcentaje.get(anio)
         
-        #if np.isnan(percentFree):        
-        #    rowPercent.append({'Año': anio,'Contenido Free':'0.00%'})
+        if np.isnan(percentFree):        
+            rowPercent.append({'Año': anio,'Contenido Free':'0.00%'})
         
-        #else:
-        rowPercent.append({'Año': anio,'Contenido Free':f"{percentFree:.2f}%"})
+        else:
+            rowPercent.append({'Año': anio,'Contenido Free':f"{percentFree:.2f}%"})
 
-    return {'Cantidad Items': str(cantidadItems.iloc[0]),'Porcentaje Contenido Free': rowPercent}
+    return {'Cantidad Items': str(cantidadItems.sum()),'Porcentaje Contenido Free': rowPercent}
 
 @app.get('/sentiment/')
 def sentiment_analysis(year:int):
