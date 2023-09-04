@@ -104,16 +104,16 @@ def userforgenre(genre:str):
 @app.get('/developer/')
 def developer(developer:str):
     
-    dataDevYear =  dataDevYear[dataDevYear['developer']== developer]
-    itemsPearYear = dataDevYear.set_index('release_year')['item_id']
+    itemsPearYear =  dataDevYear[dataDevYear['developer']== developer]
+    itemsPearYear = itemsPearYear.set_index('release_year')['item_id']
     
     
-    dataDevItem =  dataDevItem[dataDevItem['developer']== developer]
-    cantidadItems =  dataDevItem.set_index('developer')['item_id']
+    cantidadItems =  dataDevItem[dataDevItem['developer']== developer]
+    cantidadItems =  cantidadItems.set_index('developer')['item_id']
     
    
-    dataFreeYear = dataFreeYear[dataFreeYear['developer']== developer]
-    itemsFreePearYear = dataFreeYear.set_index('release_year')['item_id']
+    itemsFreePearYear = dataFreeYear[dataFreeYear['developer']== developer]
+    itemsFreePearYear = itemsFreePearYear.set_index('release_year')['item_id']
     
     porcentaje= (itemsFreePearYear/itemsPearYear)*100
     
