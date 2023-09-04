@@ -3,4 +3,3 @@ pandas
 sklearn
 uvicorn
 fastapi
-pickle
