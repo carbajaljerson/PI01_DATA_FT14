@@ -125,11 +125,11 @@ def developer(developer:str):
         
         percentFree = porcentaje.get(anio)
         
-        if np.isnan(percentFree):        
-            rowPercent.append({'Año': anio,'Contenido Free':'0.00%'})
+        #if np.isnan(percentFree):        
+        #    rowPercent.append({'Año': anio,'Contenido Free':'0.00%'})
         
-        else:
-            rowPercent.append({'Año': anio,'Contenido Free':f"{percentFree:.2f}%"})
+        #else:
+        rowPercent.append({'Año': anio,'Contenido Free':f"{percentFree:.2f}%"})
 
     return {'Cantidad Items': str(cantidadItems.iloc[0]),'Porcentaje Contenido Free': rowPercent}
 
