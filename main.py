@@ -31,6 +31,9 @@ with open("data/dataDevItem.pkl", "rb") as file5:
     
 with open("data/dataFreeYear.pkl", "rb") as file6:
     dataFreeYear= pickle.load(file6)
+    
+with open("data/dataSentiment.pkl", "rb") as file7:
+    dataSentiment= pickle.load(file7)
 
 
 @app.get('/')
@@ -134,8 +137,18 @@ def developer(developer:str):
 @app.get('/sentiment/')
 def sentiment_analysis(year:int):
     
-    pass
+    dfSentiment = dataSentiment[dataSentiment['release_year']== year]
+    resultado=dfSentiment['sentiment_analysis'].value_counts()
 
+    for i, valor in resultado.items():
+        if(i==2):
+            positivo = valor
+        elif (i==1):
+            neutral = valor
+        elif (i==0):
+            negativo = valor
+
+    return {'Negativo': int(negativo) ,'Neutral': int(neutral), 'Positve':int(positivo)}
 
 
 @app.get('/recomendacion/')
