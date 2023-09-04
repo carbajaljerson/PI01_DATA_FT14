@@ -20,6 +20,9 @@ with open("data/dataUser.pkl", "rb") as file1:
 with open("data/dataGenres.pkl", "rb") as file2:
     dataGenres= pickle.load(file2)
     
+with open("data/dataUserGenre.pkl", "rb") as file3:
+    dataUserGenre= pickle.load(file3)
+    
 
 @app.get('/')
 def index():
@@ -58,7 +61,7 @@ def countreviews(fechaInicio:str, fechaFin:str):
 @app.get('/genre/')
 def genre(genreRanking:str):
     
-    #sumGenres = dataGenres
+   
     sumGenres = dataGenres.sort_values(ascending=False)
     result = pd.DataFrame(sumGenres).reset_index()
     
@@ -75,7 +78,19 @@ def genre(genreRanking:str):
 @app.get('/userforgenre/')
 def userforgenre(genre:str):
     
-    pass
+    sumUserGenres = dataUserGenre[dataUserGenre['genres'] == genre]
+    result = pd.DataFrame(sumUserGenres).reset_index()
+    result = result.sort_values('playtime_forever')
+    result=result.tail(5).reset_index()
+    
+    top5Users =[]
+    cont =  len(result)-1
+    while cont>=0:       
+        #top5Users.append(result.user_id[cont])
+        top5Users.append({'User': result.user_id[cont],'Url': result.user_url[cont]})
+        cont=cont-1
+    
+    return {'Top 5 Usuarios':top5Users}
 
 @app.get('/developer/')
 def developer(developer:str):
