@@ -16,10 +16,9 @@ app = FastAPI()
 #pickle_in = open("classifier.pkl","rb")
 #classifier=pickle.load(pickle_in)
 
-with open("data/steamReviews.pkl", "rb") as file3:
-    dataUser= pickle.load(file3)
+with open("data/dataUser.pkl", "rb") as file1:
+    dataUser= pickle.load(file1)
 
-with open("data/steamGames.pkl", "rb") as file1:
 
 
 @app.get('/')
