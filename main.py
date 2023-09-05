@@ -166,7 +166,7 @@ def recomendacion(idItem:str):
     #Tanto el linear_kernel como la cosine_similarity produjeron el mismo resultado
     #Sin embargo, linear_kernel tardó menos en ejecutarse
     
-    cosineSim = linear_kernel(tfidf_matriz,tfidf_matriz)
+    cosineSim = linear_kernel(tfidf_matriz[:1000,:])
         
     #Asignar vectores de características a item_id   
     indices = pd.Series(dataRecomend.index, index=dataRecomend['item_id']).drop_duplicates()
