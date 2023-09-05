@@ -40,7 +40,7 @@ de reseñas de los juegos.
 
 ## **2. Análisis Exploratorio de los Datos (EDA)**
 
-Una vez que los datos están limpios, es tiempo de revisar las relaciones que existen entre las variables de los datasets, encontrar si hay presencia de outliers o anomalías (que no tienen que ser errores necesariamente), y verificar si hay algún patrón que sirva en un análisis posterior. Las nubes de palabras nos muestran cuales son las palabras con mayor frecuencia, se deja la gráfica sobre la columna 'app_name'
+Una vez que los datos están limpios, es tiempo de revisar las relaciones que existen entre las variables de los datasets, encontrar si hay presencia de outliers o anomalías (que no tienen que ser errores necesariamente), y verificar si hay algún patrón que sirva en un análisis posterior. Las nubes de palabras nos mostraran cuales son las palabras con mayor frecuencia, se deja la gráfica sobre la columna 'app_name'
 
 
 <p align="center">
