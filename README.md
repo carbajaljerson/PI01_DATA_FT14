@@ -8,7 +8,7 @@
 
 <p align=center><img src="src\logo_henry.png"><p>
 
-# Prueba de concepto para proyecto de Steam
+# Proyeco Individual Machine Learning Operations (MLOps)
 
 ## Introducción
 
