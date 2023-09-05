@@ -34,6 +34,9 @@ with open("data/dataFreeYear.pkl", "rb") as file6:
     
 with open("data/dataSentiment.pkl", "rb") as file7:
     dataSentiment= pickle.load(file7)
+    
+with open("data/dataRecomend.pkl", "rb") as file8:
+    dataRecomend= pickle.load(file8)
 
 
 @app.get('/')
@@ -52,8 +55,9 @@ def userdata(userId:str):
     #Se ingresa el userId, retornando el monto gastado por el usuario, porcentaje de recomendación y cantidad de Items'''
     
     cantidad= dataUser[dataUser['user_id']==userId].groupby('user_id')['item_id'].nunique().iloc[0]
+    
     porcentaje = round(((dataUser.loc[dataUser["user_id"] == userId].recommend.sum())/(len(dataUser.loc[dataUser["user_id"] == userId]))),2)*100
-    #cantidad = (dataUser['items_count'].loc[dataUser["user_id"] == userId]).max()
+    
     gastoTotal = round(dataUser['price'].loc[dataUser["user_id"] == userId].sum(),2)
     
     return {'Usuario':userId, 'Gasto Total':gastoTotal, 'Porcentaje de recomendación (%)':porcentaje, 'Cantidad de Items':int(cantidad)}
@@ -98,7 +102,7 @@ def userforgenre(genre:str):
     top5Users =[]
     cont =  len(result)-1
     while cont>=0:       
-        #top5Users.append(result.user_id[cont])
+        
         top5Users.append({'User': result.user_id[cont],'Url': result.user_url[cont]})
         cont=cont-1
     
@@ -109,12 +113,10 @@ def developer(developer:str):
     
     itemsPearYear =  dataDevYear[dataDevYear['developer']== developer]
     itemsPearYear = itemsPearYear.set_index('release_year')['item_id']
-    
-    
+        
     cantidadItems =  dataDevItem[dataDevItem['developer']== developer]
     cantidadItems =  cantidadItems.set_index('developer')['item_id']
-    
-   
+       
     itemsFreePearYear = dataFreeYear[dataFreeYear['developer']== developer]
     itemsFreePearYear = itemsFreePearYear.set_index('release_year')['item_id']
     
@@ -154,6 +156,42 @@ def sentiment_analysis(year:int):
 @app.get('/recomendacion/')
 def recomendacion(idItem:str):
     
-    pass
+    #Min_df requiere que un término aparezca para que se considere parte del vocabulario.
+    #Max_df excluye términos que son demasiado frecuentes y que es poco probable que ayuden a predecir la etiqueta
+    #ngram_range=(1,2) Donde un bigrama es un par de palabras adyacentes en un texto
+    
+    vectorizar = TfidfVectorizer(min_df=10, max_df=0.5, ngram_range=(1,2))
+    tfidf_matriz = vectorizar.fit_transform(dataRecomend['genres'])
+  
+    #Tanto el linear_kernel como la cosine_similarity produjeron el mismo resultado
+    #Sin embargo, linear_kernel tardó menos en ejecutarse
+    
+    cosineSim = linear_kernel(tfidf_matriz,tfidf_matriz)
+        
+    #Asignar vectores de características a item_id   
+    indices = pd.Series(dataRecomend.index, index=dataRecomend['item_id']).drop_duplicates()
+    
+    if (indices[idItem].size > 1):
+        idx =indices[idItem].iloc[0]
+    else:
+        idx = indices[idItem]
+    
+    # Obtener las puntuaciones de similitud por pares
+    simScores = list(enumerate(cosineSim[idx]))
+    
+    # Ordena los juegos según las puntuaciones de similitud.
+    simScores = sorted(simScores, key=lambda x: x[1], reverse=True)
+    
+    # Obtener las puntuaciones de los 10 juegos más similares
+    simScores = simScores[1:11]
+    
+    # Obtener los  indices de los juegos
+    itemIndices = [i[0] for i in simScores]
+    
+    # Retornar el top 10 de los juegos con similitud
+    result=dataRecomend['app_name'].iloc[itemIndices].values
+    
+    return dict(enumerate(result.flatten(), 1))
+
 
 #uvicorn main:app
