@@ -39,9 +39,9 @@ with open("data/dataRecomend.pkl", "rb") as file8:
     dataRecomend= pickle.load(file8)
 
 
-@app.get('/')
-def index():
-    return {'message': 'Proyecto Individual de Jerson Carbajal Ramirez'}
+#@app.get('/')
+# def index():
+# return {'message': 'Proyecto Individual de Jerson Carbajal Ramirez'}
 
 
 @app.get('/{name}')
@@ -160,21 +160,24 @@ def recomendacion(idItem:str):
     #Max_df excluye términos que son demasiado frecuentes y que es poco probable que ayuden a predecir la etiqueta
     #ngram_range=(1,2) Donde un bigrama es un par de palabras adyacentes en un texto
     
-    vectorizar = TfidfVectorizer(min_df=10, max_df=0.5, ngram_range=(1,2))
+    vectorizar = TfidfVectorizer(min_df=10, max_df=0.5, ngram_range=(1,2), stop_words='english')
     tfidf_matriz = vectorizar.fit_transform(dataRecomend['genres'])
   
     #Tanto el linear_kernel como la cosine_similarity produjeron el mismo resultado
     #Sin embargo, linear_kernel tardó menos en ejecutarse
+    
+    
+    #Con linear_kernel se verifica que los idItem tengan el mismo contenido según la columna de Género
     
     cosineSim = linear_kernel(tfidf_matriz[:1000,:])
         
     #Asignar vectores de características a item_id   
     indices = pd.Series(dataRecomend.index, index=dataRecomend['item_id']).drop_duplicates()
     
-    if (indices[idItem].size > 1):
-        idx =indices[idItem].iloc[0]
-    else:
-        idx = indices[idItem]
+    #if (indices[idItem].size > 1):
+    #    idx =indices[idItem].iloc[0]
+    #else:
+    idx = indices[idItem]
     
     # Obtener las puntuaciones de similitud por pares
     simScores = list(enumerate(cosineSim[idx]))
