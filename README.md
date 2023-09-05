@@ -8,7 +8,7 @@
 
 <p align=center><img src="src\logo_henry.png"><p>
 
-# Proyeco Individual Machine Learning Operations (MLOps)
+# Proyecto Individual Machine Learning Operations (MLOps)
 
 ## Introducción
 
