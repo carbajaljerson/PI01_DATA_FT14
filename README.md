@@ -91,8 +91,8 @@ lsita de videojuegos se aplicó Similitud del Coseno y Lineal Kernel obteniendo 
 
 Aquí se muestra información adicional y recursos relacionados con el proyecto:
 
-1. `Video explicativo:` Se ha creado un [video explicativo](https://...)  donde te muestro algunas funciones de mi proyecto con el uso de la API.
+1. `Video explicativo:` Se ha creado un [video explicativo](https://drive.google.com/drive/folders/10zsRP-ydH-mOPX7VTS2Mqht0UxviPNiN?usp=sharing)  donde te muestro algunas funciones de mi proyecto con el uso de la API.
 
-2. `Acceso a la API:` En el siguiente [enlace de la API](https://pi01-data-ft14-jcr.onrender.com/) podras encontrar las funciones de este proyecto.
+2. `Acceso a la API:` En el siguiente [enlace de la API](https://pi01-data-ft14-jcr.onrender.com) podras encontrar las funciones de este proyecto.
 
 3. `Obtención de datos:` Los datos utilizados para este proyecto de análisis, estan en el siguiente [enlace de descarga](https://drive.google.com/drive/folders/1HqBG2-sUkz_R3h1dZU5F2uAzpRn7BSpj) 
