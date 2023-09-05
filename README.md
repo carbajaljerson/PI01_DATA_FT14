@@ -78,7 +78,6 @@ lsita de videojuegos se aplicó Similitud del Coseno y Lineal Kernel obteniendo 
 
 **Este repositorio incluye:**
 
-+ Cuadernos de Jupyter para su visualización<br/>
 + Un proceso ETL paso a paso<br/>
 + Un análisis exploratorio de datos (EDA)<br/>
 + Desarrollo de una API con el Framework FastApi<br/>
