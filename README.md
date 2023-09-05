@@ -11,10 +11,9 @@
 - Pasamos los valores nulos o vacios de 'revenue' con 0 y igualmente lo hacemos con la columna 'budget'.
 - Reordenamos el orden de fecha como nos piden al formato '%Y-%m-%d'.
 - Separamos el año a una nueva columna que la llamaremos release_year.
-- Desanidamos por el valor que queremos necesarios de las columnas 'genres', 'belongs_to_collection', 'production_companies' 'production_countries', 'spoken_languages'
-- En una nueva columna que la llamaremos return sacar el resultado de la division entre las columnas revenue y budget.
-- Eliminamos las columnas que no serán utilizadas, video,imdb_id,adult,original_title,vote_count,poster_path y homepage.
-- En una nueva columna tengo que sacar el nombre del mes que tengo en la columna release_date, que lo pondremos en la columna month y igualmente hacemos con los dias de la semana que la pondremos en la columna que llamaremos day.
+- Desanidamos por el valor que queremos necesarios de las columnas 'genres'
+- Eliminamos las columnas que no serán utilizadas.
+- En una nueva columna tengo que sacar el nombre del mes que tengo en la columna release_date.
 - En la columna 'day' tengo miércoles y sábado con tildes, le quitaremos las tildes para que nos pueda funcionar.
 - En la columna de belongs_to_collection lo pasaremos a todo con minusculas con lower.
 - Y por ultimo lo exportamos para hacer las APIS.
