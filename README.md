@@ -13,27 +13,27 @@
 
 ## Introducción
 
-El presente proyecto se desarolla bajo el perfil de un Data Engineer y Data Scientist, para la empresa Steam. Se cuenta con poca madurez de los datos y se solicita se desarrolle un Producto Mínimo Viable donde se contará con un servicio en la nube a través de una API así como con la implementación del modelo de Machine Learning, en base al género de un videojuego o a partir de un score o rating.
+El presente proyecto se desarolla bajo el perfil de un Data Engineer y Data Scientist, para la empresa Steam. Se cuenta con poca madurez de los datos y se solicita se desarrolle un Producto Mínimo Viable donde se contará con un servicio en la nube a través de una API así como con la implementación de dos modelos de Machine Learning, en base al género de un videojuego o a partir de un score o rating.
 
 
 ## Datos
 
 Este proyecto cuenta con tres archivos JSON:
 
-* **australian_user_reviews.json** es un dataset que contiene los id de usuarios los cuales por medio de sus reseñas realizan evaluaciones de los videojuegos, es esta columna importante para un análisis posterior que nos revelaría la satisfacción o el no agrado a traves emoticones o emojis siendo esto parte del procesamiento del lenguaje natural. 
+* **australian_user_reviews.json** es un dataset que contiene los id de usuarios los cuales por medio de sus reseñas realizan evaluaciones de los videojuegos, es esta columna importante para un análisis posterior que nos revelaría la satisfacción o el no agrado a través de emoticones o emojis siendo esto parte del procesamiento del lenguaje natural. 
 
-* **australian_users_items.json** es un dataset que contiene los id de usuarios sobre los cuales se tiene como dato el teimpo acumulado de juego sobre un específico item.
+* **australian_users_items.json** es un dataset que contiene los id de usuarios sobre los cuales se tiene como dato el tiempo acumulado de juego sobre un específico item.
 
-* **output_steam_games.json** es un dataset en que se encuentran datos propios de los videojuegos, es decir su género, título, precio, descuento, empresa que lo desarrollo y score como los datos más significativos.
+* **output_steam_games.json** es un dataset en que se encuentran datos propios de los videojuegos, es decir su género, título, precio, descuento, empresa que lo desarrolló y score como los datos más significativos.
 
 ## **DESARROLLO DEL PROYECO INDIVIDUAL ** :white_circle:
 
 ## **1. Etapa del proceso ETL** :
 
 - Cargamos los archivos con extensión .json con las librerias de json y pandas.
-- Luego se realizó el trabajo ETL(Extracción, Transformación y Carga)
+- Luego se realizó el trabajo Extracción, Transformación y Carga (ETL)
 - Se verificó que algunas columnas presentan valores de tipo arreglo como el caso de la columna 'genres' y se desanidaron. 
-- Se realizaron diversas transformaciones como por ejemplo se dio formato de fechas '%Y-%m-%d' a la columna 'posted' o reemplazar emojis y emoticones por texto en la columna
+- Se realizaron diversas transformaciones dando formato a las fechas '%Y-%m-%d' a la columna 'posted' o reemplazar emojis y emoticones por texto en la columna
 de reseñas de los juegos.
 - Se eliminaron las columnas que no eran explicativas para el proyecto.
 - Luego de las transformaciones y normalización de los datos se exportaron los archivos serializados para el consumo de la API.
@@ -65,16 +65,20 @@ Se utilizó el framework FastAPI para la implementación de la API, y se crearon
 
 * **sentiment_analysis**: Esta función recibe el año de lanzamiento del videojuego y devuelve una lista con la cantidad de registros de reseñas de usuarios que se encuentren categorizados con un análisis de sentimiento, estas categorias son: Negativo, Neutral y Positivo.
 
-* **recomendacion_juego**: Esta función recibe el id del producto como parámetro y devuelve una lista de recomendación de 5 juegos similares al ingresado.
 
-* **recomendacion_usuario**: Esta función recibe el id de usuario como parámetro y devuelve una lista con 5 juegos recomendados para dicho usuario.
+**Modelo de Aprendizaje Atomático**:
+
+Una vez que toda la data es consumible por la API, está lista para consumir por los departamentos de Analytics y Machine Learning, y nuestro EDA nos permite comprender los datos que tenemos, es tiempo de entrenar nuestro modelo de Machine Learning para crear un modelo de predicción. Para ello, existen dos propuestas de trabajo: En la primera, el modelo deberá tener una relación ítem-ítem, esto es se toma un item, en base a que tan similar es ese ítem al resto, y se recomiendan videojuegos similares para lo cual se deberá de ingresar el id del videjuego y se tendrá como resultado una lista de 5 juegos recomendados, se recomienda aplicar la similitud del coseno; la segunda propuesta aplica el filtro user-item, esto es tomar un usuario, se encuentran usuarios similares y se recomiendan ítems que a esos usuarios similares les gustaron para realizar esta propuesta se deberá de ingresar el id de usuario y la salida será una lista de 5 videojuegos que se le recomiendan a ese usuario.
 
 
+* **recommendGame**: Esta función recibe el id del videojuego como parámetro y devuelve una lista de recomendación de 5 videojuegos similares al ingresado.
 
-**Modelo de predicción:**
+* **recommendUser**: Esta función recibe el id de usuario como parámetro y devuelve una lista con 5 videojuegos recomendados para dicho usuario.
 
-Una vez que toda la data es consumible por la API, está lista para consumir por los departamentos de Analytics y Machine Learning, y nuestro EDA nos permite comprender los datos que tenemos, es tiempo de entrenar nuestro modelo de Machine Learning para crear un modelo de predicción. El primer modelo tiene como input el id de videjuego y devuelve una 
-lsita de videojuegos se aplicó Similitud del Coseno y Lineal Kernel obteniendo en esta última un menor tiempo de respuesta, es necesario indicar tras la comparación que ambas dieron los mismos resultados.
+
+**Desarrollo de los Modelos de predicción:**
+
+Eln el primer modelo que tiene como input el id de videjuego y generar una lista de videojuegos se aplicó la Similitud del Coseno y Lineal Kernel obteniendo en esta última un menor tiempo de respuesta, es necesario indicar tras la comparación que ambas dieron los mismos resultados. El segundo modelo tiene como input el id de usuario y devuelve una lista de videojuegos, este método se basa únicamente en las interacciones pasadas que se han registrado entre usuarios y los videojuegos, para así generar nuevas recomendaciones.
 
 
 **Este repositorio incluye:**
@@ -84,8 +88,6 @@ lsita de videojuegos se aplicó Similitud del Coseno y Lineal Kernel obteniendo 
 + Desarrollo de una API con el Framework FastApi<br/>
 + Implementación del Modelo de Machine Learning<br/>
 + Notebooks para la visualización de los procesos<br/>
-
-
 
 
 ## Detalles adicionales del proyecto
